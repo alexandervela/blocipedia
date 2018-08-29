@@ -1,0 +1,28 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": null,
+    "database": "blocipedia-dev",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "logging": false,
+    "operatorsAliases": false
+  },
+  "test": {
+    "username": "postgres",
+    "password": null,
+    "database": "blocipedia-test",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "logging": false,
+    "operatorsAliases": false
+  },
+  "production": {
+    "username": "postgres",
+    "password": null,
+    "database": "blocipedia-production",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "db": "process.env.https://git.heroku.com/alexandervela-blocipedia.git"
+  }
+}

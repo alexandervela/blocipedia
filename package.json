@@ -1,0 +1,35 @@
+{
+  "name": "blocipedia",
+  "version": "1.0.0",
+  "description": "A Wikipedia-like application for users to create,collaborate, and share wikis",
+  "main": "(src/server.js)",
+  "scripts": {
+    "test": "export NODE_ENV=test && jasmine",
+    "start": "node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexandervela/blocipedia.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexandervela/blocipedia/issues"
+  },
+  "homepage": "https://github.com/alexandervela/blocipedia#readme",
+  "devDependencies": {
+    "faker": "^4.1.0",
+    "jasmine": "^3.0.0",
+    "request": "^2.83.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "dotenv": "^5.0.0",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "morgan": "^1.9.0",
+    "pg": "^7.4.1",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.32.6"
+  }
+}
