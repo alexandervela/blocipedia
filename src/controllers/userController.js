@@ -23,7 +23,7 @@ module.exports = {
           passport.authenticate("local")(req, res, () => {
             req.flash("notice", "You've successfully signed in!");
             res.redirect("/");
-
+            
             const msg = {
               to: newUser.email,
               from: 'example@blocipedia.com',
