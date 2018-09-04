@@ -8,6 +8,9 @@
       <% include ../static/partials/navbar.ejs %>
 
       <h1>Wikis</h1>
+      <% if(currentUser) { %>
+        <a href="/wikis/new" class="btn btn-success">New Wiki</a>
+      <% } %>
 
       <ul class="list-group">
         <% wikis.forEach((wiki) => { %>
