@@ -20,16 +20,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 0
     }
-  }, {
-      classMethods: {
-        associate: function(models) {
-          // Add the correct association and relationship
-          User.hasMany(Wiki, {foreignKey: "userId", as: "wikis"});
-        }
-      }
-  });
+  }, {});
   User.associate = function(models) {
     // associations can be defined here
+    User.hasMany(models.Wiki, {
+      foreignKey: "userId",
+      as: "wikis"
+    })
+
   };
   return User;
 };

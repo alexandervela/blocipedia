@@ -17,16 +17,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.INTEGER
     }
-  }, {
-      classMethods: {
-        associate: function(models) {
-          // Add the correct association and relationship
-          Wiki.belongsTo(User, {foreignKey: "userId", onDelete: "CASCADE"});
-        }
-      }
-  });
+  }, {});
   Wiki.associate = function(models) {
     // associations can be defined here
+    Wiki.belongsTo(models.User, {
+      foreignKey: "userId",
+      onDelete: "CASCADE"
+    })
   };
   return Wiki;
 };
