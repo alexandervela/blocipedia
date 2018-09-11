@@ -6,7 +6,19 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
+          <% if(currentUser && currentUser.role === 0) { %>
+          <li class="nav-item">
+              <a class="nav-link" href="/users/<%= currentUser.id %>/upgrade">Premium</a>
+            </li>
+            <% } else if(currentUser && currentUser.role === 1) { %>
+            <li>
+              <a class="nav-link" href="/users/<%= currentUser.id %>/downgrade">Standard</a>
+            </li>
+            <% }%>
           <% if(currentUser) { %>
+            <li>
+              <a class="nav-link" href="/users/<%= currentUser.id %>">Profile</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="/users/sign_out">Sign out</a>
             </li>

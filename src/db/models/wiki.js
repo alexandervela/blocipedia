@@ -23,7 +23,19 @@ module.exports = (sequelize, DataTypes) => {
     Wiki.belongsTo(models.User, {
       foreignKey: "userId",
       onDelete: "CASCADE"
-    })
+    });
+
+    Wiki.addScope("lastFiveFor", (userId) => {
+      return {
+        include: [{
+          model: models.Wiki
+        }],
+        where: { userId: userId},
+        limit: 5,
+        order: [["createdAt", "DESC"]]
+      }
+    });
+
   };
   return Wiki;
 };

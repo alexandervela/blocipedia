@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body>
+
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="container">
+
+      <% include ../static/partials/messages.ejs %>
+
+      <h1><%= `${user.username}'s profile` %></h1>
+
+      <hr>
+
+      <h2> Latest Wikis</h2>
+      
+    </ul>
+      
+    </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+
+  </body>
+</html>

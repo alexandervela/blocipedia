@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body>
+
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="container">
+
+      <% include ../static/partials/messages.ejs %>
+
+     <h2>Switch to a free Standard account</h2>
+
+     <hr>
+
+     <form action="/users/<%= currentUser.id %>/downgrade" method="POST">
+        <script
+          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="pk_test_TYooMQauvdEDq54NiTphI7jx"
+          data-amount="100"
+          data-name="Stripe.com"
+          data-description="Premium Membership Charge"
+          data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+          data-locale="auto"
+          data-zip-code="true">
+        </script>
+      </form>
+
+    </main>
+         <% include ../static/partials/baseScripts.ejs %>
+   </body>
+</html>
