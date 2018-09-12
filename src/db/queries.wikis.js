@@ -1,5 +1,6 @@
 const Wiki = require("./models").Wiki;
 const User = require("./models").User;
+const Authorizer = require("../policies/wiki");
 
 module.exports = {
     getAllWikis(callback){
@@ -23,7 +24,9 @@ module.exports = {
     createWiki(newWiki, callback){
       return Wiki.create({
         title: newWiki.title,
-        body: newWiki.body
+        body: newWiki.body,
+        private: newWiki.private,
+        userId: newWiki.userId
       })
       .then((wiki) => {
         callback(null, wiki);

@@ -28,9 +28,10 @@ module.exports = {
             let newWiki = {
               title: req.body.title,
               body: req.body.body,
-              private: req.body.private
+              private: req.body.private,
+              userId: req.user.id
             };
-            wikiQueries.addWiki(newWiki, (err, wiki) => {
+            wikiQueries.createWiki(newWiki, (err, wiki) => {
               if(err){
                 res.redirect(500, "wikis/new");
               } else {
@@ -45,30 +46,30 @@ module.exports = {
     show(req, res, next){
         wikiQueries.getWiki(req.params.id, (err, wiki) => {
             if(err || wiki === null){
-                res.redirect(401, "/");
+                res.redirect(404, "/");
             } else {
-                render("wikis/show");
+                res.render("wikis/show", {wiki});
             }
         });
     },
     destroy(req, res, next){
-        wikiQueries.deleteWiki(req.params.id, (err, wiki) => {
+        wikiQueries.deleteWiki(req, (err, wiki) => {
             if(err){
                 res.redirect(err, `/wikis/${req.params.id}`);
             } else {
-                render(303, "/wikis");
+                res.redirect(303, "/wikis");
             }
         });
     },
     edit(req, res, next){
         wikiQueries.getWiki(req.params.id, (err, wiki) => {
             if(err || wiki === null){
-                red.redirect(404, "/");
+                res.redirect(404, "/");
             } else {
                 const authorized = new Authorizer(req.user, wiki).edit();
                 
                 if(authorized){
-                    render("wikis/edit", {wiki});
+                    res.render("wikis/edit", {wiki});
                 } else {
                     req.flash("You are not authorized to do that.")
                     res.redirect(`/wikis/${req.params.id}`)

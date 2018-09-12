@@ -3,6 +3,7 @@ const server = require("../../src/server");
 const base = "http://localhost:3000/wikis/";
 const User = require("../../src/db/models").User;
 const Wiki = require("../../src/db/models").Wiki;
+const sequelize = require("../../src/db/models/index").sequelize;
 
 describe("routes : wikis", () => {
   beforeEach((done) => {
@@ -36,6 +37,7 @@ describe("routes : wikis", () => {
         });
       });
     });
+  });
 
     describe("standard user performing CRUD actions", () => {
       beforeEach((done) => {
@@ -51,6 +53,7 @@ describe("routes : wikis", () => {
             form: {
               role: user.role,
               userId: user.id,
+              username: user.username,
               email: user.email
             }
           },
@@ -75,7 +78,7 @@ describe("routes : wikis", () => {
   
       describe("GET /wikis/new", () => {
         it("should render a view with a new wiki form", (done) => {
-          request.get(`${base}/create`, (err, res, body) =>{
+          request.get(`${base}new`, (err, res, body) =>{
             expect(err).toBeNull();
             expect(body).toContain("New Wiki");
             done();
@@ -83,27 +86,26 @@ describe("routes : wikis", () => {
         })
       });
   
-      describe("POST /wikis", () => {
-        it("should create a new wiki and redirect", (done) => {
-          const options = {
-            url: base,
-            form: {
-              title: "Wiki's are cool!",
-              body: "Try them out today.",
-              private: false,
-              userId: this.user.id
-            }
+      describe("POST /wikis/new", () => {
+        const options = {
+          url: `${base}create`,
+          form: {
+            title: "Wiki's are cool!",
+            body: "Try them out today.",
+            private: false
           }
+        };
+
+        it("should create a new wiki and redirect", (done) => {
     
           request.post(options,
             (err, res, body) => {
               Wiki.findOne({where: {title: "Wiki's are cool!"}})
               .then((wiki) => {
-                expect(wiki).not.toBeNull();
-                expect(wiki,title).toBe("Wiki's are cool!");
+                expect(res.statusCode).toBe(303);
+                expect(wiki.title).toBe("Wiki's are cool!");
                 expect(wiki.body).toBe("Try them out today.");
-                expect(wiki,private).toBe(false);
-                expect(wiki.userId).toBe(1);
+                expect(wiki.private).toBe(false);
                 done();
               })
               .catch((err) => {
@@ -152,7 +154,7 @@ describe("routes : wikis", () => {
         });
    
       });
-  
+
       describe("POST /wikis/:id/destroy", () => {
   
         it("should delete the wiki with the associated id", (done) => {
@@ -218,5 +220,4 @@ describe("routes : wikis", () => {
 
     });
 
-  });
 });
