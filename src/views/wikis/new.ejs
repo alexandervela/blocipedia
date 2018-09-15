@@ -19,10 +19,17 @@
           <label for="description">Description</label>
           <textarea rows="4" class="form-control" name="body" placeholder="Enter Description"></textarea>
         </div>
+        <% if(currentUser && currentUser.role === 0) { %>
         <div class="form-group">
-            <label for="private">Private?</label>
-            <input type="checkbox" class="form-control" name="private">
+            <input type="radio" class="form-control" name="private" value="false" checked> Public
+            <input type="radio" class="form-control" name="private" value="true" disabled> Private
         </div>
+        <% } else if(currentUser && currentUser.role > 0) { %>
+          <div class="form-group">
+            <input type="radio" class="form-control" name="private" value="false" checked> Public
+            <input type="radio" class="form-control" name="private" value="true"> Private
+        </div>
+        <% } %>  
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
 

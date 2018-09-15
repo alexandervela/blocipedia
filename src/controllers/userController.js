@@ -1,4 +1,5 @@
 const userQueries = require("../db/queries.users.js");
+const wikiQueries = require("../db/queries.wikis.js");
 const passport = require("passport");
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -74,22 +75,30 @@ module.exports = {
           console.log(err);
           res.redirect(404, "/");
         } else {
-          req.flash("notice", "You've successfully upgraded!");
+          req.flash("notice", "You've successfully upgraded to a Premium account!");
           res.redirect("/");
         }
       });
     },
     downgradeForm(req, res, next){
+      req.flash("notice", "Switching to a Standard account will change any Private wikis to Public");
       res.render("users/downgrade");
     },
     downgradeAccount(req, res, next){
       userQueries.updateUser(req.params.id, 0, (err, user) => {
-        if(err || user == null){
+        if(err || !user){
           console.log(err);
           res.redirect(404, "/");
         } else {
-          req.flash("notice", "You've successfully switched to a free account!");
+          req.flash("notice", "You've successfully switched to a Standard account!");
+          req.flash("notice", "All Private Wikis are now Public")
           res.redirect("/");
+        }
+      });
+      wikiQueries.updatePrivacy(req.params.id, false, (err, user) => {
+        if(err || !user){
+          console.log(err);
+          res.redirect(404, "/");
         }
       });
     }

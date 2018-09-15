@@ -27,7 +27,7 @@ module.exports = {
     .catch((err) => {
       callback(err);
     })
-},
+  },
   updateUser(id, newRole, callback){
     return User.findById(id)
       .then((user) => {

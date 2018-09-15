@@ -77,6 +77,30 @@ module.exports = {
           callback("Forbidden");
         }
       });
+    },
+    updatePrivacy(id, updatedPrivacy, callback){
+      return Wiki.findAll({ where: {userId: id} })
+      .then((wikis) => {
+        if(!wikis){
+          return callback("No Wikis found");
+        }
+        const authorized = new Authorizer(req.user, wikis).update();
+
+        if(authorized){
+          wikis.update({ private: updatedPrivacy}, {
+            fields: ['private']
+          })
+          .then(() => {
+            callback(null, wikis);
+          })
+          .catch((err) => {
+            callback(err);
+          });
+        } else {
+          req.flash("notice", "You are not authorized to do that.");
+          callback("Forbidden");
+        }
+      });
     }
     
 }

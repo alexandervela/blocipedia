@@ -11,7 +11,7 @@
           <li class="nav-item">
               <a class="nav-link" href="/users/<%= currentUser.id %>/upgrade">Premium</a>
             </li>
-            <% } else if(currentUser && currentUser.role === 1) { %>
+            <% } else if(currentUser && currentUser.role > 0) { %>
             <li>
               <a class="nav-link" href="/users/<%= currentUser.id %>/downgrade">Standard</a>
             </li>
@@ -30,7 +30,7 @@
           <li class="nav-item">
             <a class="nav-link" href="/users/sign_in">Sign In</a>
           </li>
-          <% }%>
+          <% } %>
         </ul>
       </div>
     </div>
