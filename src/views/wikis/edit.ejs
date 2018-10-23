@@ -10,6 +10,10 @@
 
       <h1>Edit Wiki</h1>
 
+      <% if(currentUser && (currentUser.id == wiki.userId || currentUser.isAdmin())) { %>
+        <a href='/wikis/<%= wiki.id %>/collaborators' class="btn btn-info">Edit Collaborators</a>
+      <% } %>
+
       <form action="/wikis/<%= wiki.id %>/update" method="post">
         <div class="form-group">
           <label for="title">Wiki Title</label>

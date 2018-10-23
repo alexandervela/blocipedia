@@ -45,18 +45,21 @@ module.exports = {
           }
     },
     show(req, res, next){
-        wikiQueries.getWiki(req.params.id, (err, wiki) => {
-            let markdownWiki = {
-                title: markdown.ToHTML(wiki.title),
-                body: markdown.ToHTML(wiki.body),
-                private: wiki.private,
-                userId: wiki.userId,
-                id: wiki.id
-            }
+        wikiQueries.getWiki(req.params.id, (err, result) => {
+            wiki = result["wiki"];
+	        collaborators = result["collaborators"];
             if(err || wiki === null){
                 res.redirect(404, "/");
             } else {
-                res.render("wikis/show", {markdownWiki});
+                const authorized = new Authorizer(req.user, wiki, collaborators).showCollaborators();
+                if(authorized){
+                    wiki.title = markdown.toHTML(wiki.title);
+                    wiki.body = markdown.toHTML(wiki.body);
+                    res.render("wikis/show", {wiki});
+                } else {
+                    req.flash("notice", "You are not authorized to do that.");
+                    res.redirect(`/wikis`);
+                }
             }
         });
     },
@@ -70,14 +73,16 @@ module.exports = {
         });
     },
     edit(req, res, next){
-        wikiQueries.getWiki(req.params.id, (err, wiki) => {
+        wikiQueries.getWiki(req.params.id, (err, result) => {
+            wiki = result["wiki"];
+	        collaborators = result["collaborators"];
             if(err || wiki === null){
                 res.redirect(404, "/");
             } else {
-                const authorized = new Authorizer(req.user, wiki).edit();
+                const authorized = new Authorizer(req.user, wiki, collaborators).edit();
                 
                 if(authorized){
-                    res.render("wikis/edit", {wiki});
+                    res.render("wikis/edit", {wiki, collaborators});
                 } else {
                     req.flash("You are not authorized to do that.")
                     res.redirect(`/wikis/${req.params.id}`)

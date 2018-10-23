@@ -1,6 +1,7 @@
 const staticRoutes = require("../routes/static");
 const userRoutes = require("../routes/users");
 const wikiRoutes = require("../routes/wikis");
+const collaboratorRoutes = require("../routes/collaborators");
 
 module.exports = {
     init(app){
@@ -11,5 +12,6 @@ module.exports = {
       app.use(staticRoutes);
       app.use(userRoutes);
       app.use(wikiRoutes);
+      app.use(collaboratorRoutes);
     }
   }

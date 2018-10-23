@@ -57,12 +57,14 @@ module.exports = {
       res.redirect("/");
     },
     show(req, res, next){
-       userQueries.getUser(req.params.id, (err, user) => {
-         if(err || user === undefined){
+       userQueries.getUser(req.params.id, (err, result) => {
+        user = result["user"];
+        collaborations = result["collaborations"];
+         if(err || result === undefined){
            req.flash("notice", "No user found with that ID.");
            res.redirect("/");
          } else {
-           res.render("users/show", {user});
+           res.render("users/show", {...result});
          }
        });
      },
@@ -99,6 +101,17 @@ module.exports = {
         if(err || !user){
           console.log(err);
           res.redirect(404, "/");
+        }
+      });
+    },
+    showCollaborations(req, res, next){
+      userQueries.getUser(req.user.id, (err, result) => {
+        user = result["user"];
+        collaborations = result["collaborations"];
+        if(err || user == null){
+          res.redirect(404, "/");
+        } else {
+          res.render("users/collaborations", {user, collaborations});
         }
       });
     }
